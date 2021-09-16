@@ -1,0 +1,66 @@
+<div class="container p-5 m-5">
+
+
+{{ question }}
+<br>
+{{ question.choice_set }}
+<br>
+{{ question.choice_set.all }}
+<br>
+{{ question.choice_set.all.0}}
+<br>
+{{ question.choice_set.all.1}}
+<br>
+{{ question.choice_set.all.2}}
+<br>
+
+
+
+
+{% comment %} 
+
+<h1>{{ question.question_text }}</h1>
+<ul>
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul> {% endcomment %}
+
+
+
+
+<h1>{{ question.question_text }}</h1>
+
+
+{% if error_message %}<h1><strong>{{ error_message }}</strong></h1>{% endif %}
+
+
+<p>A traves del formulario (form), la accion (action) es mandar al url votar con el id que captura el metodo (method) post, es decir manda el valor (value="{{choice.id}}") que se encuentra en value, y esa captura lleva el nombre (name='choice') esto es capturado por la vista que se llama vote</p>
+<br>
+<p>el _set hace la relación inversa que existe entre preguntas y eleccion, muestra todas las elecciones que puede tener pregunta</p>
+<br>
+(question.id) Es el id de la question elegida: {{ question.id }}<br><br>
+
+<form action="{% url 'votar' question.id %}" method="post">
+
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+   
+   (choice.id) Muestra el id de cada choice ({{choice.id}}). Esto es mandado por medio de value="choice.id" ({{choice.id}})<br>
+   (foorloop.counter) Hace un conteno por cada bucle: {{ forloop.counter}} <br>
+   (input (contenido) y label (nombre del contenido)) estos se asocian entre ellos a traves de un id= y un for=, por ejemplo "choice((forloop.counter))"<br><br>
+
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}"> {{ choice.choice_text }}</label><br><br>
+{% endfor %}
+<input type="submit" value="votar"/>
+</form><br><br>
+<a href="{% url 'indice'%}">Volver al inicio</a>
+
+
+
+</div>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

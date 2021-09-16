@@ -1,0 +1,8 @@
+<form action="#" method="POST" class="py-4">
+{% csrf_token %} 
+        {{ form.as_p }}
+        {% csrf_token %} 
+
+    
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
