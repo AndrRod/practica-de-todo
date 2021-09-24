@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # aca se instalan las nuevas aplicañciones
     'gestionPedidos',
     'servicios',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'TiendaOnline.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["gestionPedidos/templates", "gestionPedidos/templates/PagPreg", "servicios/templates"],
+        'DIRS': ["gestionPedidos/templates", "gestionPedidos/templates/PagPreg", "servicios/templates", "blog/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,7 +149,7 @@ EMAIL_USE_TLS=True
 EMAIL_PORT=587
 #Es el puerto de gmail
 EMAIL_HOST_USER="rodrigueza.federacion@gmail.com"
-EMAIL_HOST_PASSWORD="Lgante03"
+EMAIL_HOST_PASSWORD="Lgante1986"
 
 
 import os

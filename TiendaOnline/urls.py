@@ -28,6 +28,7 @@ urlpatterns = [
     # vistas de las preguntas
     url('', include('gestionPedidos.urls')),
     url('', include('servicios.urls')),
+    url('blog/', include('blog.urls')),
     # path('indice/', views.index, name ='indice')
 
     ]

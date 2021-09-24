@@ -16,27 +16,40 @@
   </head>
   <body>    
 
-  {{servicio}}
   
     
 
+  {{servicio}}
+
+<section class='page-section clearfix'>
+
+<div class='container'>
+<div class='intro'>
+<div style='padding: 4px'>
 
 {% for s in servicio %}
 
 
+    <h2 class='text-uppercase'>{{forloop.counter }}.  {{s}} </h2>
 
-<div style='padding: 10px'><p>
-
-    <h2 >{{forloop.counter }}.  {{s}} </h2>
-    <span class='section-heading-upper' style='color: blue'> {{s.titulo}} </span>
-    <p> {{s.contenido}} </p>
     {% comment %} las dos alternativas son validas {% endcomment %}
+    <img class='intro-img' src= '{{s.imagen.url}}' style='width: 30%;'>
     {% comment %} <img src= '/media/{{s.imagen}}'> {% endcomment %}
-    <img src= '{{s.imagen.url}}'>
-    <p> {{s.creacion}} </p>
-    </p><div>
 
+    <p><span class='text-lowercase font-weight-bold' style='color: blue'> {{s.titulo}} </span></p>
+    
+    <p class="user-select-none font-weight-light"> {{s.contenido}} </p>
+    <p class='f-6'> {{s.creacion}} </>
+    
 {% endfor %}
+
+    </div>
+
+</div>
+</div>
+</section>
+
+
 
 
 

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    
+        
+
+    <title>Blog</title>
+  </head>
+  <body>    
+    <div class='container'>
+      <h1 class="display-1">{{ categoria }}</h1> 
+    
+    {% comment %} Categorias del blog: {% for p in post %}{% for f in p.categorias.all %}{{ f.nombre }} {% endfor %}{% endfor %} {% endcomment %}
+
+    <a href="{% url 'blog' %}"  class="btn btn-primary">Regresar</a>
+
+    
+ 
+    {% for p in post %}
+    
+        <h1 class='text-uppercase'>{{ forloop.counter }}. {{p.titulo}}</h1>
+        <p class="display-1">{{ p.categorias.nombre }}</p>
+        <img src="{{p.imagen.url}}" style='width:30%;'>
+
+        <p class='text-secondary'>{{ p.contenido }}</p>
+
+            
+        
+        <p>autor: {{ p.autor }} / {{ p.actualizacion}}  / Categoria: {% for f in p.categorias.all %}{{f.nombre}}. / id o identificador: {{f.id}} (f.id){% endfor %}</p>
+
+  
+    {% endfor %}
+        {% comment %} para poder accedera a la entidad con la que se relaciona hay que hacer un bucle nuevamente selccionando todos los elmeentos p.categotiras.all {% endcomment %}
+    </div>
+  <body>    
+  </html>
+
+

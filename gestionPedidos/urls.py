@@ -25,10 +25,9 @@ urlpatterns = [
     path('<question_id>/votar/', views.vote, name ='votar'),
     path('<question_id>/resulado/', views.results, name ='resultado'),
     
-   
     
     
-    
+    path('contacto/', views.contacto, name='contacto'), 
     path('crear_articulo/', views.CrearArticulo.as_view(), name='CrearArticulo')
 
 

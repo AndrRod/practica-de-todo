@@ -1,3 +1,5 @@
+from email.mime import multipart
+from django import template
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from gestionPedidos.models import articulos
@@ -34,7 +36,13 @@ def buscar(request):
    return HttpResponse(mensaje)
 
 from TiendaOnline.settings import EMAIL_HOST_USER
-
+from django.contrib import messages
+from django.shortcuts import redirect, render, HttpResponse
+# from email.mime.text import MIMEText
+# from email.mime.multipart import MIMEMultipart
+from django.template.loader import get_template, render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 def contacto(request):
     if request.method=='POST':
@@ -47,10 +55,59 @@ def contacto(request):
 # clueaned_data nos muestra la infomacion a traves de un diccionario
         if miFormulario.is_valid():
             infForm = miFormulario.cleaned_data
+
+            # tambien podria ir Formulario_contacto(data= request.POST)
+            # DATA es el paso de los datos que se recibiran
+
+
+
 # de formulario podemos ir recuperando el valor colocando la clave
 # para enviar la informacion lo hacemos a traves .get el segundo paramentro es el correo del servidor
             destinatario = request.POST['email']
-            send_mail(infForm['asunto'], infForm['mensaje'], infForm.get('email', ''), [destinatario],)
+
+            nombre = request.POST['nombre']
+            mensaje = request.POST['mensaje']
+            asunto = request.POST['asunto']
+            
+
+            # html = f"""
+            # <html>
+            # <body>
+            # <p> Hola  {nombre} </p>
+            # <p> nos pondremos en contacto con usted lo antes posible, le comunciamos que recibimos el siguiente mensaje: </p>
+            # <p><b>{mensaje}</b></p>
+            # <p>Atte. Andres Rodriguez </p>
+            # </body>
+            # </html>
+            # """ 
+            # mensaje = MIMEText(html, 'html')
+            
+            # msj = multipart("alternativa")
+            # msj.attach(mensaje)
+
+            # msj = f"Hola {nombre}, nos pondremos en contacto con usted lo antes posible, le comunciamos que recibimos el siguiente mensaje: \n\n {mensaje}. \n\n \t\t\t\t Atte.Andres Rodriguez"
+
+            contexto = {'nombre': nombre, 'mensaje': mensaje}
+
+            template = render_to_string('mensaje.html', contexto)
+            
+            # msj = get_template('mensaje.html')
+            # content = msj.render(contexto)
+            email = EmailMultiAlternatives(
+                asunto,
+                mensaje,
+                settings.EMAIL_HOST_USER,
+                [destinatario]
+                
+                )
+            
+            email.attach_alternative(template, 'text/html')
+            email.send()
+
+            
+            # send_mail(infForm['asunto'], (email), infForm.get('email', ''), [destinatario],)
+
+            #  (f"Hola {nombre}, nos pondremos en contacto con usted lo antes posible, le comunciamos que recibimos el siguiente mensaje: \n\n <b>{mensaje} </b>. \n\n \t\t\t\t Atte.Andres Rodriguez")
 
 
 # otra variante
@@ -61,10 +118,12 @@ def contacto(request):
 
         # send_mail = (subject, message, email_form, recipent_list)
 
-        
-
+            
+            
+            mensaje = messages.success(request, f'{nombre} has enviado un correo exitosamente')
 # el return queda si o si
-        return render(request, 'gracias.html')
+        return redirect('contacto')
+        # return render(request, 'formulario_contacto.html', {'mensaje': mensaje})
         
     else:   
         # obtiene un formulario vacio
@@ -97,20 +156,6 @@ class CrearArticulo(CreateView):
     
     
     
-
-
-
-
-
-# hay que importar la clase del app servicio
-from servicios.models import servicios
-
-def Servicios(request):
-    # importar todos los servicios u objetos creados en el modulo servicios
-    servicio = servicios.objects.all()
-    return render(request, "servicios.html", {'servicio': servicio})
-
-
 
 
 
